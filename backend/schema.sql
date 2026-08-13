@@ -4,7 +4,7 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    phone INTEGER NOT NULL,
+    phone VARCHAR(15),
     role VARCHAR(20) NOT NULL DEFAULT 'renter' CHECK (role IN ('renter', 'host', 'admin')),
     created_at TIMESTAMP DEFAULT NOW()
 );

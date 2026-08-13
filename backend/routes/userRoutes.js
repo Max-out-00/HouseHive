@@ -1,6 +1,8 @@
 import express from 'express'
 import encrpt from '../controllers/encrpt.js'
 
+import  { registerUser } from '../controllers/userController.js'
+
 // const app = express();
 // const port = 5000;
 
@@ -30,3 +32,8 @@ import encrpt from '../controllers/encrpt.js'
 //     console.log(`server runs on ${port}`)
 // })
 
+const routes = express.Router();
+
+routes.post('/register',registerUser)       // When someone sends a POST request to /register, execute resisterUser.
+
+export default routes;
