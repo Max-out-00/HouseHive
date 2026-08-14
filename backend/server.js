@@ -1,24 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import userRoutes  from './routes/userRoutes.js'
+import propertyRoutes from './routes/propertyRoutes.js'
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.get('/test-db', async (req, res) => {
-//   try {
-//     const result = await pool.query('SELECT NOW()');
-//     res.json({ success: true, time: result.rows[0] });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, error: err.message });
-//   }
-// });
-
-// app.use
-
 app.use('/api/users' , userRoutes)
+app.use('/api/properties' , propertyRoutes)
 
 const PORT = process.env.PORT || 5000;
 
