@@ -57,3 +57,27 @@ export const getPropertyById = async (req, res) => {
     }
 }
 
+export const uploadPropertyImages = async (req, res) => {
+    const { id } = req.params
+
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ success: false, error: "No files uploaded" });
+    }
+    try {
+        const insertImages = []
+        for (const file of req.files) {
+            const imageURL = `/uploads/${file.filename}`
+            const result = await pool.query(
+                `INSERT INTO property_images (property_id, image_url)
+                 VALUES ($1, $2)
+                 RETURNING *`,
+                [id, imageUrl]
+            );
+            insertedImages.push(result.rows[0]);
+        }
+        res.status(201).json({ success: true, images: insertedImages });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: "Server error" });
+    }
+}
