@@ -6,7 +6,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.send("Some feilds are missing 😊")
+        return res.send("Some feilds are missing ")
     }
     const result = await pool.query(
         `SELECT id, name, email, password_hash, role FROM users WHERE email = $1`,

@@ -6,18 +6,26 @@ import PropertyDetails from './pages/PropertyDetails';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import CreateListing from './pages/CreateListing';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// inside <Routes>
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
+        <Route path="/dashboard" element={
+          <ProtectedRoute><Dashboard /></ProtectedRoute>}/>
+        <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>}/>
         <Route path="/" element={<Home />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-listing" element={<CreateListing />} />
       </Routes>
     </BrowserRouter>
   );
