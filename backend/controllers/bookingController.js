@@ -70,3 +70,57 @@ export const getBookingsByProperty = async (req, res) => {
         res.status(500).json({ success: false, error: "Server error" });
     }
 };
+
+export const updateBookingStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body; // 'confirmed' or 'cancelled'
+    const hostId = req.user.id;
+
+    if (!['confirmed', 'cancelled'].includes(status)) {
+        return res.status(400).json({ success: false, error: "Invalid status" });
+    }
+
+    try {
+        // Confirm this booking's property actually belongs to the requesting host
+        const check = await pool.query(
+            `SELECT b.id FROM bookings b
+             JOIN properties p ON b.property_id = p.id
+             WHERE b.id = $1 AND p.host_id = $2`,
+            [id, hostId]
+        );
+
+        if (check.rows.length === 0) {
+            return res.status(403).json({ success: false, error: "Not authorized to update this booking" });
+        }
+
+        const result = await pool.query(
+            `UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *`,
+            [status, id]
+        );
+
+        res.json({ success: true, booking: result.rows[0] });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: "Server error" });
+    }
+};
+
+export const getBookingsForHost = async (req, res) => {
+    const hostId = req.user.id;
+
+    try {
+        const result = await pool.query(
+            `SELECT b.*, p.title, p.location
+             FROM bookings b
+             JOIN properties p ON b.property_id = p.id
+             WHERE p.host_id = $1
+             ORDER BY b.created_at DESC`,
+            [hostId]
+        );
+
+        res.json({ success: true, bookings: result.rows });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: "Server error" });
+    }
+};

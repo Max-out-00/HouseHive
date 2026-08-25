@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 
 function PropertyCard({ property }) {
   return (
-    <div className="property-card">
-      <h3>{property.title}</h3>
-      <p>{property.location}</p>
-      <p>₹{property.price} / month</p>
-      <p>{property.bedrooms} bed · {property.bathrooms} bath</p>
-      <Link to={`/properties/${property.id}`}>View Details</Link>
-    </div>
+    <article className="property-card">
+      <div className="property-image"><span>⌂</span></div>
+      <div className="property-info">
+        <p className="eyebrow">HouseHive stay</p>
+        <h3><Link to={`/properties/${property.id}`}>{property.title}</Link></h3>
+        <p className="property-location">{property.location}</p>
+        <p className="price">₹{property.price} <span className="muted">/ month</span></p>
+        <div className="property-meta"><span>{property.bedrooms} beds</span><span>{property.bathrooms} baths</span><span>Available now</span></div>
+      </div>
+    </article>
   );
 }
 

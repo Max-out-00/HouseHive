@@ -8,6 +8,6 @@ const router = express.Router();
 router.post('/', verifyToken, createProperty);
 router.get('/', getProperties);
 router.get('/:id', getPropertyById);
-router.post('/:id/images', upload.array('images', 10), uploadPropertyImages);
+router.post('/:id/images', verifyToken, upload.array('images', 10), uploadPropertyImages);
 
 export default router;

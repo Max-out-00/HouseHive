@@ -24,23 +24,14 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    <main className="page"><form className="form-shell" onSubmit={handleSubmit}>
+      <p className="eyebrow">Welcome back</p><h2>Make yourself at home.</h2>
+      {error && <p className="form-message">{error}</p>}
+      <div className="field"><label>Email address</label><input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
+      <div className="field"><label>Password</label><input type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
+      <button className="button" type="submit">Log in</button>
+      <p className="form-footer">New to HouseHive? <a href="/signup">Create an account</a></p>
+    </form></main>
   );
 }
 

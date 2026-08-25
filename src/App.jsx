@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import CreateListing from './pages/CreateListing';
 import ProtectedRoute from './components/ProtectedRoute';
+import './App.css';
 
 // inside <Routes>
 
@@ -24,8 +25,6 @@ function App() {
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/create-listing" element={<CreateListing />} />
       </Routes>
     </BrowserRouter>
   );

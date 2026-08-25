@@ -26,35 +26,16 @@ function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Signup</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="tel"
-        placeholder="Phone Number"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <button type="submit">Signup</button>
-    </form>
+    <main className="page"><form className="form-shell" onSubmit={handleSubmit}>
+      <p className="eyebrow">Start your next chapter</p><h2>There’s room for you here.</h2>
+      {error && <p className="form-message">{error}</p>}
+      <div className="field"><label>Your name</label><input type="text" placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} required /></div>
+      <div className="field"><label>Email address</label><input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
+      <div className="field"><label>Phone number</label><input type="tel" placeholder="Your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} required /></div>
+      <div className="field"><label>Create a password</label><input type="password" placeholder="At least 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
+      <button className="button" type="submit">Create my account</button>
+      <p className="form-footer">Already have an account? <a href="/login">Log in</a></p>
+    </form></main>
   );
 }
 

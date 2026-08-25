@@ -10,4 +10,5 @@ routes.post('/register',registerUser)       // When someone sends a POST request
 
 routes.post('/login' , loginUser)
 
+router.patch('/:id/status', verifyToken, updateBookingStatus);
 export default routes;
