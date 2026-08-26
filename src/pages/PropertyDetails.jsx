@@ -51,8 +51,10 @@ function PropertyDetails() {
   if (error) return <main className="page"><div className="empty"><h2>Something went wrong.</h2><p>{error}</p></div></main>;
   if (!property) return <main className="page"><div className="empty"><h2>Property not found.</h2></div></main>;
 
+  const imageUrl = property.images?.[0];
+
   return (
-    <main className="page"><div className="detail-layout"><section><div className="detail-image">⌂</div><div className="detail-copy"><p className="eyebrow">A place to belong</p><h1>{property.title}</h1><p className="property-location">{property.location}</p><div className="detail-stats"><span><strong>{property.bedrooms}</strong> bedrooms</span><span><strong>{property.bathrooms}</strong> bathrooms</span><span><strong>₹{property.price}</strong> monthly</span></div><p className="detail-description">{property.description}</p></div></section><aside className="booking-card"><p className="eyebrow">Make it yours</p><h2>Book this home</h2><p className="price">₹{property.price} <span className="muted">/ month</span></p>
+    <main className="page"><div className="detail-layout"><section><div className="detail-image">{imageUrl ? <img src={imageUrl} alt={property.title} /> : '⌂'}</div><div className="detail-copy"><p className="eyebrow">A place to belong</p><h1>{property.title}</h1><p className="property-location">{property.location}</p><div className="detail-stats"><span><strong>{property.bedrooms}</strong> bedrooms</span><span><strong>{property.bathrooms}</strong> bathrooms</span><span><strong>₹{property.price}</strong> monthly</span></div><p className="detail-description">{property.description}</p></div></section><aside className="booking-card"><p className="eyebrow">Make it yours</p><h2>Book this home</h2><p className="price">₹{property.price} <span className="muted">/ month</span></p>
       {user ? (
         <form onSubmit={handleBooking}>
           {bookingError && <p className="form-message">{bookingError}</p>}{bookingSuccess && <p className="success">{bookingSuccess}</p>}

@@ -3,7 +3,7 @@ import pool from '../db/pool.js'
 export const createProperty = async (req, res) => {
     const host_id = req.user.id; // from the verified token, not the request body
     const { title, description, price, location, bedrooms, bathrooms } = req.body;
-    
+
     if (!host_id || !title || !description || !price || !location || !bedrooms || !bathrooms) {
         return res.status(400).json({ success: false, error: "Some fields are missing" });
     }
@@ -34,7 +34,16 @@ export const createProperty = async (req, res) => {
 
 export const getProperties = async (req, res) => {
     try {
-        const result = await pool.query(`SELECT * FROM properties ORDER BY created_at DESC`);
+        const result = await pool.query(`
+            SELECT p.*, COALESCE(
+                json_agg(pi.image_url) FILTER (WHERE pi.id IS NOT NULL),
+                '[]'::json
+            ) AS images
+            FROM properties p
+            LEFT JOIN property_images pi ON pi.property_id = p.id
+            GROUP BY p.id
+            ORDER BY p.created_at DESC
+        `);
         res.json({ success: true, properties: result.rows });
     } catch (error) {
         console.error(error);
@@ -47,7 +56,16 @@ export const getProperties = async (req, res) => {
 export const getPropertyById = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await pool.query(`SELECT * FROM properties WHERE id = $1`, [id]);
+        const result = await pool.query(`
+            SELECT p.*, COALESCE(
+                json_agg(pi.image_url) FILTER (WHERE pi.id IS NOT NULL),
+                '[]'::json
+            ) AS images
+            FROM properties p
+            LEFT JOIN property_images pi ON pi.property_id = p.id
+            WHERE p.id = $1
+            GROUP BY p.id
+        `, [id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ success: false, error: "Property not found" });
         }
@@ -57,7 +75,6 @@ export const getPropertyById = async (req, res) => {
         res.status(500).json({ success: false, error: "Server error" });
     }
 }
-
 export const uploadPropertyImages = async (req, res) => {
     const { id } = req.params;
     if (!req.files || req.files.length === 0) {
@@ -66,8 +83,8 @@ export const uploadPropertyImages = async (req, res) => {
     try {
         const insertedImages = [];
         for (const file of req.files) {
-            const imageUrl = `/uploads/${file.filename}`;
-            
+            const imageUrl = file.path;
+
             const result = await pool.query(
                 `INSERT INTO property_images (property_id, image_url)
                  VALUES ($1, $2)
@@ -79,7 +96,7 @@ export const uploadPropertyImages = async (req, res) => {
 
         res.status(201).json({ success: true, images: insertedImages });
     } catch (error) {
-        console.error(error);
+        console.error('Upload error:', error.message);
         res.status(500).json({ success: false, error: "Server error" });
     }
 };

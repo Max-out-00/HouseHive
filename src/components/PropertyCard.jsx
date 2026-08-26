@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 
 function PropertyCard({ property }) {
+  const imageUrl = property.images?.[0];
+
   return (
     <article className="property-card">
-      <div className="property-image"><span>⌂</span></div>
+      <div className="property-image">
+        {imageUrl ? <img src={imageUrl} alt={property.title} /> : <span>⌂</span>}
+      </div>
       <div className="property-info">
         <p className="eyebrow">HouseHive stay</p>
         <h3><Link to={`/properties/${property.id}`}>{property.title}</Link></h3>

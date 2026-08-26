@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import userRoutes  from './routes/userRoutes.js'
@@ -13,6 +14,11 @@ app.use('/api/properties' , propertyRoutes)
 
 app.use('/uploads', express.static('uploads'));
 app.use('/api/bookings', bookingRoutes);
+
+app.use((error, req, res, next) => {
+	console.error('Request error:', error.message);
+	res.status(500).json({ success: false, error: error.message || 'Server error' });
+});
 
 const PORT = process.env.PORT || 5000;
 

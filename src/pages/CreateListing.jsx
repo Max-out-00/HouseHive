@@ -32,9 +32,7 @@ function CreateListing() {
           formData.append('images', file);
         }
 
-        await axiosInstance.post(`/properties/${propertyId}/images`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await axiosInstance.post(`/properties/${propertyId}/images`, formData);
       }
 
       navigate(`/properties/${propertyId}`);
