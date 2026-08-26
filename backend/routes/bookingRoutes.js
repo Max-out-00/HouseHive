@@ -1,5 +1,4 @@
 import express from 'express';
-import { createBooking, getBookingsByRenter, getBookingsByProperty } from '../controllers/bookingController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { createBooking, getBookingsByRenter, getBookingsByProperty, getBookingsForHost, updateBookingStatus } from '../controllers/bookingController.js';
 
