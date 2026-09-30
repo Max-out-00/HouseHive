@@ -115,4 +115,4 @@ This is an actively developed portfolio project. Not yet implemented:
 
 ## Author
 
-Built by [Your Name] — [github.com/Max-out-00](https://github.com/Max-out-00)
+Built by Vaibhav Singh Rawat — [github.com/Max-out-00](https://github.com/Max-out-00)
